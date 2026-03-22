@@ -39,14 +39,12 @@ def webhook():
 
 def place_order(side, market, quantity):
     try:
-        endpoint = "/exchange/v1/derivatives/futures/orders/create"
+        endpoint = "/exchange/v1/orders/create"
 
         body = {
             "side": side,
             "order_type": "market_order",
             "market": market,
-            "leverage": 100,
-            "position_mode": "isolated",
             "total_quantity": quantity
         }
 
@@ -70,17 +68,12 @@ def place_order(side, market, quantity):
         print("STATUS CODE:", response.status_code)
         print("RAW RESPONSE:", response.text)
 
-        try:
-            return response.json()
-        except:
-            return {"raw_response": response.text}
+        return response.text
 
     except Exception as e:
-        print("FUTURES ORDER ERROR:", str(e))
+        print("ERROR:", str(e))
         return None
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
-    
-    
