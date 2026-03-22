@@ -5,6 +5,10 @@ import hashlib
 import requests
 import json
 
+API_KEY = "YOUR_API_KEY"
+SECRET_KEY = "YOUR_SECRET_KEY"
+
+BASE_URL = "https://api.coindcx.com"
 app = Flask(__name__)
 
 @app.route("/")
