@@ -24,11 +24,11 @@ def webhook():
 
         if "buy" in raw.lower():
             print("BUY SIGNAL RECEIVED")
-            place_order("buy", "BTCUSD", 0.0002)
+            place_order("buy", "BTCUSDT", 0.0002)
 
         elif "sell" in raw.lower():
             print("SELL SIGNAL RECEIVED")
-            place_order("sell", "BTCUSD", 0.0002)
+            place_order("sell", "BTCUSDT", 0.0002)
 
         return {"status": "ok"}, 200
 
