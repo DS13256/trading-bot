@@ -24,11 +24,11 @@ def webhook():
 
         if "buy" in raw.lower():
             print("BUY SIGNAL RECEIVED")
-            place_order("buy", "BTCUSDT", 0.0002)
+            place_order("buy", "BTCUSDT", 0.002)
 
         elif "sell" in raw.lower():
             print("SELL SIGNAL RECEIVED")
-            place_order("sell", "BTCUSDT", 0.0002)
+            place_order("sell", "BTCUSDT", 0.002)
 
         return {"status": "ok"}, 200
 
@@ -45,7 +45,7 @@ def place_order(side, market, quantity):
             "side": side,
             "order_type": "market_order",
             "market": market,
-            "leverage": 50,
+            "leverage": 100,
             "position_mode": "isolated",
             "total_quantity": quantity
         }
