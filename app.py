@@ -45,7 +45,7 @@ def place_order(side, market, quantity):
             "side": side,
             "order_type": "market_order",
             "market": market,
-            "leverage": 100,
+            "leverage": 50,
             "position_mode": "isolated",
             "total_quantity": quantity
         }
@@ -67,9 +67,13 @@ def place_order(side, market, quantity):
             headers=headers
         )
 
-        print("FUTURES ORDER RESPONSE:", response.text)
+        print("STATUS CODE:", response.status_code)
+        print("RAW RESPONSE:", response.text)
 
-        return response.json()
+        try:
+            return response.json()
+        except:
+            return {"raw_response": response.text}
 
     except Exception as e:
         print("FUTURES ORDER ERROR:", str(e))
@@ -80,4 +84,3 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
     
     
-   
