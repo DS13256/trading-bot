@@ -23,12 +23,16 @@ def webhook():
 
         if "buy" in raw.lower():
             print("BUY SIGNAL RECEIVED")
+            place_order("buy", "BTCINR", 0.001)
 
         elif "sell" in raw.lower():
             print("SELL SIGNAL RECEIVED")
+            place_order("sell", "BTCINR", 0.001)
 
         return {"status": "ok"}, 200
 
     except Exception as e:
         print("ERROR:", str(e))
         return {"error": str(e)}, 500
+        
+        
