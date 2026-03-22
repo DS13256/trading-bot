@@ -15,6 +15,7 @@ app = Flask(__name__)
 def home():
     return "Server Running"
 
+
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
@@ -23,11 +24,11 @@ def webhook():
 
         if "buy" in raw.lower():
             print("BUY SIGNAL RECEIVED")
-            place_order("buy", "BTCINR", 0.0002)
+            place_order("buy", "BTCUSD", 0.0002)
 
         elif "sell" in raw.lower():
             print("SELL SIGNAL RECEIVED")
-            place_order("sell", "BTCINR", 0.0002)
+            place_order("sell", "BTCUSD", 0.0002)
 
         return {"status": "ok"}, 200
 
@@ -38,12 +39,14 @@ def webhook():
 
 def place_order(side, market, quantity):
     try:
-        endpoint = "/exchange/v1/orders/create"
+        endpoint = "/exchange/v1/derivatives/futures/orders/create"
 
         body = {
             "side": side,
             "order_type": "market_order",
             "market": market,
+            "leverage": 100,
+            "position_mode": "isolated",
             "total_quantity": quantity
         }
 
@@ -64,15 +67,17 @@ def place_order(side, market, quantity):
             headers=headers
         )
 
-        print("ORDER RESPONSE:", response.text)
+        print("FUTURES ORDER RESPONSE:", response.text)
 
         return response.json()
 
     except Exception as e:
-        print("ORDER ERROR:", str(e))
+        print("FUTURES ORDER ERROR:", str(e))
         return None
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
     
+    
+   
