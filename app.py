@@ -18,19 +18,20 @@ def home():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
-        data = request.get_json(silent=True)
-
+        data = request.get_json(force=True)
         print("Webhook Received:", data)
-
-        if not data:
-            return jsonify({"status": "no json received"}), 200
 
         signal = data.get("signal")
 
-        return jsonify({
-            "status": "success",
-            "signal": signal
-        }), 200
+        # BUY
+        if signal == "buy":
+            place_order("buy", "BTCUSDT", 0.001)
+
+        # SELL
+        elif signal == "sell":
+            place_order("sell", "BTCUSDT", 0.001)
+
+        return jsonify({"status": "success"}), 200
 
     except Exception as e:
         print("ERROR:", str(e))
