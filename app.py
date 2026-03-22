@@ -18,24 +18,20 @@ def home():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
-        data = request.get_json(silent=True)
+        raw = request.data.decode("utf-8")
+        print("RAW DATA:", raw)
 
-        print("RAW DATA:", request.data)
-        print("JSON DATA:", data)
+        signal = raw.lower()
 
-        if data is None:
-            return {"status": "no json received"}, 200
+        if "buy" in signal:
+            place_order("buy", "BTCINR", 0.001)
 
-        signal = data.get("signal")
-
-        if signal == "buy":
-            place_order("buy", "BTCUSDT", 0.001)
-
-        elif signal == "sell":
-            place_order("sell", "BTCUSDT", 0.001)
+        elif "sell" in signal:
+            place_order("sell", "BTCINR", 0.001)
 
         return {"status": "success"}, 200
 
     except Exception as e:
         print("ERROR:", str(e))
         return {"error": str(e)}, 500
+        
