@@ -19,19 +19,16 @@ def home():
 def webhook():
     try:
         raw = request.data.decode("utf-8")
-        print("RAW DATA:", raw)
+        print("SIGNAL:", raw)
 
-        signal = raw.lower()
+        if "buy" in raw.lower():
+            print("BUY SIGNAL RECEIVED")
 
-        if "buy" in signal:
-            place_order("buy", "BTCINR", 0.001)
+        elif "sell" in raw.lower():
+            print("SELL SIGNAL RECEIVED")
 
-        elif "sell" in signal:
-            place_order("sell", "BTCINR", 0.001)
-
-        return {"status": "success"}, 200
+        return {"status": "ok"}, 200
 
     except Exception as e:
         print("ERROR:", str(e))
         return {"error": str(e)}, 500
-        
