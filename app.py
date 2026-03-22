@@ -9,12 +9,12 @@ def home():
 @app.route("/webhook", methods=["POST"])
 def webhook():
     try:
-        data = request.get_json(force=True)
+        data = request.get_json(silent=True)
 
         print("Webhook Received:", data)
 
         if not data:
-            return jsonify({"error": "No data"}), 400
+            return jsonify({"status": "no json received"}), 200
 
         signal = data.get("signal")
 
@@ -26,9 +26,3 @@ def webhook():
     except Exception as e:
         print("ERROR:", str(e))
         return jsonify({"error": str(e)}), 500
-
-
-if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
